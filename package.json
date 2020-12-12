@@ -1,0 +1,36 @@
+{
+  "name": "testwebpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode prodaction"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natgeo89/testWebpack.git"
+  },
+  "keywords": [
+    "js",
+    "webpack"
+  ],
+  "author": "viktar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natgeo89/testWebpack/issues"
+  },
+  "homepage": "https://github.com/natgeo89/testWebpack#readme",
+  "devDependencies": {
+    "css-loader": "^5.0.1",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "html-webpack-plugin": "^4.5.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.10.1",
+    "webpack-cli": "^4.2.0"
+  }
+}

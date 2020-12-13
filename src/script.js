@@ -1,7 +1,8 @@
 import './styles/style.css';
 
-function aa(a) {
+function test(a) {
   console.log('всё работает', a);
 }
-aa(123);
-console.log();
+test(100);
+
+document.querySelector('body').classList.add('neddl');

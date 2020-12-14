@@ -1,1 +1,0 @@
-Try to understand how to work with webpack

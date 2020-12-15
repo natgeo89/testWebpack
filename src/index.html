@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CovidTable</title>
 </head>
+
 <body>
-  <div class = "wrapper">
-    <div class = "toggles-wrapper">
+  <div class="wrapper">
+    <div class="toggles-wrapper">
       <div class="time-toggle">
         <div class="time-toggle--text">за весь период пандемии</div>
         <div class="time-toggle--elem"></div>
@@ -18,21 +20,27 @@
       </div>
     </div>
     <table class="table-info">
-      <th colspan="2">World (или страна)</th>
-      <tr>
-        <td class = "table-info--column">Кол-во случаев заболевания:</td>
-        <td>соотв. значение из mock файла</td>
+      <th colspan="2" class = "table-info--country"></th>
+      <tr class = "table-info-count">
+        <td class="table-info-count--text">
+          <div class="cell-wrapper">Кол-во случаев заболевания:</div>
+        </td>
+        <td class="table-info-count--value"></td>
       </tr>
-      <tr>
-        <td class = "table-info--column">Кол-во летальных исходов:</td>
-        <td>соотв. значение из mock файла</td>
+      <tr class = "table-info-death">
+        <td class="table-info-death--text">
+          <div class="cell-wrapper">Кол-во летальных исходов:</div>
+        </td>
+        <td class="table-info-death--value"></td>
       </tr>
-      <tr>
-        <td class = "table-info--column">Кол-во выздоровевших:</td>
-        <td>соотв. значение из mock файла</td>
+      <tr class = "table-info-recovery">
+        <td class="table-info-recovery--text">
+          <div class="cell-wrapper">Кол-во выздоровевших:</div>
+        </td>
+        <td class="table-info-recovery--value"></td>
       </tr>
     </table>
-    <div class = "buttons">
+    <div class="buttons">
       <button class="buttons--disease active"></button>
       <button class="buttons--death"></button>
       <button class="buttons--recovery"></button>
@@ -40,4 +48,5 @@
     <div class="info"></div>
   </div>
 </body>
+
 </html>

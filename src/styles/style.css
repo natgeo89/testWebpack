@@ -37,6 +37,10 @@ table, th, td, tr {
   border-collapse: collapse;
 }
 
+table {
+  margin-bottom: 50px;
+}
+
 .time-toggle--elem,
 .count-toggle--elem {
   position: relative;
@@ -44,8 +48,8 @@ table, th, td, tr {
   width: 70px;
   height: 25px;
 
-  background-color: green;
-  border: 2px solid brown;
+  background-color: rgb(40, 41, 40);
+  border: 2px solid black;
   border-radius: 20px;
 }
 
@@ -57,7 +61,7 @@ table, th, td, tr {
   width: 25px;
   height: 25px;
 
-  background-color: red;
+  background-color: rgb(180, 163, 163);
   border-radius: 50%;
 
   content: '';
@@ -66,4 +70,37 @@ table, th, td, tr {
 .time-toggle--elem[data-day]::after,
 .count-toggle--elem[data-100]::after {
   left: calc(100% - 25px);
+}
+
+/* buttons */
+
+.buttons {
+  display: flex;
+  
+  column-gap: 20px;
+}
+
+.buttons button {
+  width: 50px;
+  height: 50px;
+
+  background-size: contain;
+  opacity: .4;
+}
+
+.buttons button.active {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.buttons--disease {
+  background-image: url("../assets/disease.svg");
+}
+
+.buttons--death {
+  background-image: url("../assets/death.svg");
+}
+
+.buttons--recovery {
+  background-image: url("../assets/recovery.svg");
 }

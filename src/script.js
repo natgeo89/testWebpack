@@ -1,7 +1,5 @@
 import './styles/style.css';
-import populationCountry from './populationDataMock';
-import gettersCovid from './gettersCovidData';
-import covidData from './covidDataMock';
+import gettersDataObj from './gettersDataObj';
 
 // table
 const timeToggle = document.querySelector('.time-toggle--elem');
@@ -12,25 +10,6 @@ const countToggleText = document.querySelector('.count-toggle--text');
 // every block data
 const toggleBtns = document.querySelector('.buttons');
 const info = document.querySelector('.info');
-// const diseaseBtn = document.querySelector('.buttons--disease');
-// const deathBtn = document.querySelector('.buttons--death');
-// const recoveryBtn = document.querySelector('.buttons--recovery');
-// const recoveryBtn = document.querySelector('.buttons--recovery');
-
-// const dataObj = {
-//   diseaseCount: gettersCovid.getDiseaseCount,
-//   deathCount: gettersCovid.getDeathCount,
-//   recoveryCount: gettersCovid.getRecoveryCount,
-//   diseaseCount100: gettersCovid.getDiseaseCount100,
-//   deathCount100: gettersCovid.getDeathCount100,
-//   recoveryCount100: gettersCovid.getRecoveryCount100,
-//   diseaseCountLastDay: gettersCovid.getDiseaseCountLastDay,
-//   deathCountLastDay: gettersCovid.getDeathCountLastDay,
-//   recoveryCountLastDay: gettersCovid.getRecoveryCountLastDay,
-//   diseaseCount100LastDay: gettersCovid.getDiseaseCount100LastDay,
-//   deathCount100LastDay: gettersCovid.getDeathCount100LastDay,
-//   recoveryCount100LastDay: gettersCovid.getRecoveryCount100LastDay,
-// };
 
 function fillTableData(dataDay, data100Count, country) {
   const countryName = document.querySelector('.table-info--country');
@@ -41,37 +20,58 @@ function fillTableData(dataDay, data100Count, country) {
   const recovery = document.querySelector('.table-info-recovery--value');
 
   if (dataDay === false && data100Count === false) {
-    count.textContent = gettersCovid.getDiseaseCount(country);
-    death.textContent = gettersCovid.getDeathCount(country);
-    recovery.textContent = gettersCovid.getRecoveryCount(country);
+    count.textContent = gettersDataObj.getDiseaseCount(country);
+    death.textContent = gettersDataObj.getDeathCount(country);
+    recovery.textContent = gettersDataObj.getRecoveryCount(country);
   }
 
   if (dataDay === true && data100Count === true) {
-    count.textContent = gettersCovid.getDiseaseCount100LastDay(country);
-    death.textContent = gettersCovid.getDeathCount100LastDay(country);
-    recovery.textContent = gettersCovid.getRecoveryCount100LastDay(country);
+    count.textContent = gettersDataObj.getDiseaseCount100LastDay(country);
+    death.textContent = gettersDataObj.getDeathCount100LastDay(country);
+    recovery.textContent = gettersDataObj.getRecoveryCount100LastDay(country);
   }
 
   if (dataDay === true && data100Count === false) {
-    count.textContent = gettersCovid.getDiseaseCountLastDay(country);
-    death.textContent = gettersCovid.getDeathCountLastDay(country);
-    recovery.textContent = gettersCovid.getRecoveryCountLastDay(country);
+    count.textContent = gettersDataObj.getDiseaseCountLastDay(country);
+    death.textContent = gettersDataObj.getDeathCountLastDay(country);
+    recovery.textContent = gettersDataObj.getRecoveryCountLastDay(country);
   }
 
   if (dataDay === false && data100Count === true) {
-    count.textContent = gettersCovid.getDiseaseCount100(country);
-    death.textContent = gettersCovid.getDeathCount100(country);
-    recovery.textContent = gettersCovid.getRecoveryCount100(country);
+    count.textContent = gettersDataObj.getDiseaseCount100(country);
+    death.textContent = gettersDataObj.getDeathCount100(country);
+    recovery.textContent = gettersDataObj.getRecoveryCount100(country);
   }
 }
 
-function findLostCountries() {
-  const countriesCovid = covidData.Countries.map((country) => country.Country);
-  const countriesPopulation = populationCountry.map((country) => country.name);
-  console.log(countriesCovid, countriesPopulation);
-
-  return countriesPopulation.filter((country) => !countriesCovid.includes(country));
+// show info when choose indicator
+function setSelectInfo(button) {
+  const isDisease = button.classList.contains('buttons--disease');
+  const isDeath = button.classList.contains('buttons--death');
+  const isRecovery = button.classList.contains('buttons--recovery');
+  let content = '';
+  switch (true) {
+    case isDisease:
+      content = document.querySelector('.table-info-count--value').textContent;
+      break;
+    case isDeath:
+      content = document.querySelector('.table-info-death--value').textContent;
+      break;
+    case isRecovery:
+      content = document.querySelector('.table-info-recovery--value').textContent;
+      break;
+    default:
+      break;
+  }
+  info.textContent = content;
 }
+
+// function findLostCountries() {
+//   const countriesCovid = dataObj.Countries.map((country) => country.Country);
+//   const countriesPopulation = populationCountry.map((country) => country.name);
+
+//   const withDiffName = countriesCovid.filter((countryCovid) => !countriesPopulation.includes(countryCovid));
+// }
 
 // functions for table
 function changeToggleText() {
@@ -79,7 +79,8 @@ function changeToggleText() {
   const data100Count = countToggle.hasAttribute('data-100');
   timeToggleText.textContent = (lastDayData) ? 'за последний день' : 'за весь период пандемии';
   countToggleText.textContent = (data100Count) ? 'на 100 тыс. населения' : 'всего';
-  fillTableData(lastDayData, data100Count, 'Planet');
+  fillTableData(lastDayData, data100Count, 'Belarus');
+  setSelectInfo(document.querySelector('.active'));
 }
 
 function toggleElement({ target }) {
@@ -97,11 +98,6 @@ function deleteElementClass(elem, className) {
   elem.classList.remove(className);
 }
 
-// function setTextContentForElem(elem, textCont) {
-//   const element = elem;
-//   element.textContent = textCont;
-// }
-
 function toggleButton({ target }) {
   const isTargetActive = target.classList.contains('active');
   if (isTargetActive) return;
@@ -109,13 +105,11 @@ function toggleButton({ target }) {
     const activeBtn = toggleBtns.querySelector('.active');
     deleteElementClass(activeBtn, 'active');
     target.classList.add('active');
+    setSelectInfo(target);
   }
-  // const currentInfo = getters.getDiseaseCountInWorld();
-  // setTextContentForElem(info, currentInfo);
 }
-
-fillTableData(false, false, 'Planet');
-// todo после каждого изменения кнопки обновлять объект (вызывать его методы)
+fillTableData(false, false, 'Belarus');
+console.log(gettersDataObj.getCountryPopulation('Belarus'));
 
 timeToggle.addEventListener('click', toggleElement);
 countToggle.addEventListener('click', toggleElement);

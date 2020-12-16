@@ -1,4 +1,5 @@
-/* eslint-disable arrow-body-style */
+/* eslint-disable no-param-reassign */
+import covidData from './covidDataMock';
 import flagsPopulation from './populationDataMock';
 
 function getWorldPopulation() {
@@ -19,7 +20,7 @@ function getCountryIndex(country) {
       case 'Congo (Brazzaville)':
         return countryObj.name === 'Congo';
       case 'Congo (Kinshasa)':
-        return countryObj.name.includes('Congo (Democr');
+        return countryObj.name.includes('Congo (Democratic Republic');
       default:
         break;
     }
@@ -43,8 +44,32 @@ function getCountryPopulation(country) {
   return flagsPopulation[indexOfCountry].population;
 }
 
-export default {
-  getWorldPopulation,
-  getCountryFlag,
-  getCountryPopulation,
-};
+function createDataObj() {
+  const dataObj = JSON.parse(JSON.stringify(covidData));
+  const globalData = dataObj.Global;
+  globalData.Country = 'Planet';
+  dataObj.Countries.unshift(globalData);
+
+  delete dataObj.Global;
+  delete dataObj.Message;
+
+  dataObj.Countries.forEach((country) => {
+    if (country.Country.includes('Congo')) return country.Country;
+    country.Country = country.Country.replace(/,.+/, '').replace(/\s\(.+/, '');
+  });
+
+  dataObj.Countries.forEach((country) => {
+    delete country.Premium;
+    delete country.Date;
+    delete country.Slug;
+    delete country.CountryCode;
+
+    country.Population = getCountryPopulation(country.Country);
+    country.Flag = getCountryFlag(country.Country);
+  });
+
+  return dataObj;
+}
+const dataObj = createDataObj();
+
+export default dataObj;

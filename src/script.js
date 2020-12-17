@@ -109,7 +109,6 @@ function toggleButton({ target }) {
   }
 }
 fillTableData(false, false, 'Belarus');
-console.log(gettersDataObj.getCountryPopulation('Belarus'));
 
 timeToggle.addEventListener('click', toggleElement);
 countToggle.addEventListener('click', toggleElement);

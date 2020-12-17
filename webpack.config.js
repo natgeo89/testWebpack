@@ -7,6 +7,7 @@ module.exports = {
   mode: 'development',
   entry: {
     main: './script.js',
+    mockGraph: './getAPIdata.js'
   },
   output: {
     filename: '[name].bundle.js',

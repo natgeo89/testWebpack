@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 // for table, list with flags
 async function getCountriesAndGlobalInfo() {
   const urlCountries = 'https://disease.sh/v3/covid-19/countries';
@@ -74,3 +76,7 @@ async function getHistoricInfo(country) { // country or Global
 }
 // getHistoricInfo('Global');
 // getHistoricInfo('Belarus');
+export default {
+  getCountriesAndGlobalInfo,
+  getHistoricInfo,
+};

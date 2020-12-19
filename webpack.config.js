@@ -6,8 +6,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: './script.js',
-    mockGraph: './getAPIdata.js'
+    main: './js/script.js',
   },
   output: {
     filename: '[name].bundle.js',

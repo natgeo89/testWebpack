@@ -15,38 +15,10 @@ body {
   background-color: rgb(202, 194, 156);
 }
 
-
-
-/* buttons */
-
-.buttons {
-  display: flex;
-  margin-bottom: 20px;
-  
-  column-gap: 20px;
+.input-expense {
+  width: 100px;
 }
 
-.buttons button {
-  width: 50px;
-  height: 50px;
-
-  background-size: contain;
-  opacity: .4;
-}
-
-.buttons button.active {
-  transform: scale(1.2);
-  opacity: 1;
-}
-
-.buttons--disease {
-  background-image: url("../assets/disease.svg");
-}
-
-.buttons--death {
-  background-image: url("../assets/death.svg");
-}
-
-.buttons--recovery {
-  background-image: url("../assets/recovery.svg");
+.report {
+  width: 20%;
 }

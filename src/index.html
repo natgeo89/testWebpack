@@ -4,50 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CovidTable</title>
+  <title>Report</title>
 </head>
 
 <body>
-  <div id="table" class = "table"></div>  
-  <div class="wrapper">
-    <div class="toggles-wrapper">
-      <div class="time-toggle">
-        <div class="time-toggle--text">за весь период пандемии</div>
-        <div class="time-toggle--elem"></div>
-      </div>
-      <div class="count-toggle">
-        <div class="count-toggle--text">всего</div>
-        <div class="count-toggle--elem"></div>
-      </div>
-    </div>
-    <table class="table-info">
-      <th colspan="2" class = "table-info--country"></th>
-      <tr class = "table-info-count">
-        <td class="table-info-count--text">
-          <div class="cell-wrapper">Кол-во случаев заболевания:</div>
-        </td>
-        <td class="table-info-count--value"></td>
-      </tr>
-      <tr class = "table-info-death">
-        <td class="table-info-death--text">
-          <div class="cell-wrapper">Кол-во летальных исходов:</div>
-        </td>
-        <td class="table-info-death--value"></td>
-      </tr>
-      <tr class = "table-info-recovery">
-        <td class="table-info-recovery--text">
-          <div class="cell-wrapper">Кол-во выздоровевших:</div>
-        </td>
-        <td class="table-info-recovery--value"></td>
-      </tr>
-    </table>
-    <div class="buttons">
-      <button class="buttons--disease active"></button>
-      <button class="buttons--death"></button>
-      <button class="buttons--recovery"></button>
-    </div>
-    <div class="info"></div>
+  <h1>Add expense</h1>
+  <div class="expense-wrapper">
+    <select name="categories" id="category-select">
+      <option value="none">--Select category--</option>
+      <option value="food">Food</option>
+      <option value="house">House</option>
+      <option value="dress">Dress</option>
+      <option value="car">Car</option>
+      <option value="health">Health</option>
+    </select>
+    <input class = "input-expense" placeholder="...input expense" disabled>
+    <button id = "save" disabled>Save expense</button>
   </div>
+
+  <h1>Report</h1>
+  <div class = "report" id="report">
+
+  </div>
+
+
 </body>
 
 </html>

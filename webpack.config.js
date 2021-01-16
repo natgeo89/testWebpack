@@ -14,7 +14,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
     }),
     new CleanWebpackPlugin(),
   ],
@@ -26,12 +26,17 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
-        use: ['file-loader']
-      }
-    ]
-  }
+        use: ['file-loader'],
+      },
+    ],
+  },
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 200,
+    poll: 1000,
+  },
 };

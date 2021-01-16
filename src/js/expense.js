@@ -61,7 +61,6 @@ function opacityAnimation() {
 category.addEventListener('change', enableInput);
 
 export default save.addEventListener('click', () => {
-  console.log('save to ls');
   saveExpenseToLocalStorage();
   setDefaultExpense();
 });

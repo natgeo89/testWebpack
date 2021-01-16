@@ -45,20 +45,29 @@ export default class Report {
     const datefragment = new DocumentFragment();
     const horisontalLine = document.createElement('hr');
     const reportArray = this.groupExpenses();
+
     const reportMinutes = Object.keys(reportArray).sort((a, b) => b - a);
+
     reportMinutes.forEach((min) => {
       const minute = document.createElement('li');
-      minute.textContent = min;
+      minute.textContent = `${min} minutes:`;
 
-      const expensesFragment = new DocumentFragment();
-      const expensesByMinutes = Object.values(reportArray[min]);
+      const expensesByMinutes = Object.values(reportArray[min].sort((a, b) => b.date - a.date));
 
       const expenseUl = document.createElement('ul');
+
       expensesByMinutes.forEach((expense, index) => {
+        const hours = new Date(expensesByMinutes[index].date).getHours();
+        const minutes = new Date(expensesByMinutes[index].date).getMinutes();
+        const seconds = new Date(expensesByMinutes[index].date).getSeconds();
         const expenseLi = document.createElement('li');
-        expenseLi.textContent = `${expensesByMinutes[index].category}, ${expensesByMinutes[index].value}`;
+        expenseLi.textContent = `
+          ${expensesByMinutes[index].category} --- ${expensesByMinutes[index].value} BYN;
+          date(${hours}:${minutes}:${seconds})`;
+
         expenseUl.append(expenseLi);
       });
+  
       minute.append(expenseUl);
       minute.append(horisontalLine.cloneNode());
       datefragment.append(minute);

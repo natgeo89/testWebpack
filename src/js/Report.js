@@ -3,6 +3,10 @@
 /* eslint-disable class-methods-use-this */
 import { getExpenses } from './getData';
 
+function addZeroes(num) {
+  return num < 10 ? `0${num}` : num;
+}
+
 export default class Report {
   constructor() {
     this.createReport();
@@ -10,10 +14,10 @@ export default class Report {
 
   groupExpenses() {
     const expensesArray = getExpenses();
-    return expensesArray.reduce((accum, { date }, ind, arr) => {
-      const key = new Date(date).getMinutes();
+    return expensesArray.reduce((accum, { category }, ind, arr) => {
+      const key = category;
       if (!accum.hasOwnProperty(key)) {
-        accum[key] = arr.filter(({ date }) => new Date(date).getMinutes() === key);
+        accum[key] = arr.filter(({ category }) => category === key);
         return accum;
       }
       return accum;
@@ -43,36 +47,41 @@ export default class Report {
       this.deleteRecord(target);
     });
 
-    const datefragment = new DocumentFragment();
+    const fragment = new DocumentFragment();
     const horisontalLine = document.createElement('hr');
     const reportArray = this.groupExpenses();
 
-    const reportMinutes = Object.keys(reportArray).sort((a, b) => b - a);
+    const reportCatetegories = Object.keys(reportArray).sort();
 
-    reportMinutes.forEach((min) => {
-      const minute = document.createElement('li');
-      minute.textContent = `${min} minutes:`;
+    reportCatetegories.forEach((category) => {
+      const categoryReport = document.createElement('li');
+      const dataByCategory = reportArray[category];
+      const totalExpenseByCategory = dataByCategory.reduce((accum, { value }) => accum + value, 0);
+      categoryReport.textContent = `${category}: -${totalExpenseByCategory} BYN`;
 
-      const expensesByMinutes = Object.values(reportArray[min].sort((a, b) => b.date - a.date));
+      const sortedExpensesByCategories = dataByCategory.sort((a, b) => b.date - a.date);
 
       const expenseUl = document.createElement('ul');
 
-      expensesByMinutes.forEach((expense, index) => {
+      sortedExpensesByCategories.forEach((expense, index) => {
         const recordContainer = document.createElement('div');
         recordContainer.classList.add('record-container');
 
-        const hours = new Date(expensesByMinutes[index].date).getHours();
-        const minutes = new Date(expensesByMinutes[index].date).getMinutes();
-        const seconds = new Date(expensesByMinutes[index].date).getSeconds();
+        const dateExpense = new Date(sortedExpensesByCategories[index].date);
+        const hours = dateExpense.getHours();
+        const minutes = dateExpense.getMinutes();
+        const seconds = dateExpense.getSeconds();
+
         const expenseLi = document.createElement('li');
-        expenseLi.dataset.date = expensesByMinutes[index].date;
+        expenseLi.dataset.date = sortedExpensesByCategories[index].date;
+        const expenseDate = `${addZeroes(hours)}:${addZeroes(minutes)}:${addZeroes(seconds)}`;
         expenseLi.textContent = `
-          ${expensesByMinutes[index].category} --- ${expensesByMinutes[index].value} BYN;
-          date(${hours}:${minutes}:${seconds})`;
+          -${sortedExpensesByCategories[index].value} BYN;
+          expense date:(${expenseDate})`;
 
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete-record');
-        deleteBtn.dataset.date = expensesByMinutes[index].date;
+        deleteBtn.dataset.date = sortedExpensesByCategories[index].date;
         deleteBtn.textContent = '✖';
 
         recordContainer.append(deleteBtn);
@@ -81,12 +90,12 @@ export default class Report {
         expenseUl.append(recordContainer);
       });
 
-      minute.append(expenseUl);
-      minute.append(horisontalLine.cloneNode());
-      datefragment.append(minute);
+      categoryReport.append(expenseUl);
+      categoryReport.append(horisontalLine.cloneNode());
+      fragment.append(categoryReport);
     });
 
-    this.report.append(datefragment);
+    this.report.append(fragment);
 
     return this.report;
   }
@@ -100,34 +109,3 @@ export default class Report {
     element.append(this.report);
   }
 }
-
-// @example
-//  *   group([
-//  *      { country: 'Belarus', city: 'Brest' },
-//  *      { country: 'Russia', city: 'Omsk' },
-//  *      { country: 'Russia', city: 'Samara' },
-//  *      { country: 'Belarus', city: 'Grodno' },
-//  *      { country: 'Belarus', city: 'Minsk' },
-//  *      { country: 'Poland', city: 'Lodz' }
-//  *     ],
-//  *     item => item.country,
-//  *     item => item.city
-//  *   )
-//  *            =>
-//  *   Map {
-//  *    "Belarus" => ["Brest", "Grodno", "Minsk"],
-//  *    "Russia" => ["Omsk", "Samara"],
-//  *    "Poland" => ["Lodz"]
-//  *   }
-//  */
-// function group(array, keySelector, valueSelector) {
-//   return array.reduce((accum, item, index, array1) => {
-//     const key = keySelector(item);
-//     if (!accum.has(key)) {
-//       const objectsWithKeySelector = array1.filter((el) => key === keySelector(el));
-//       const arrayOfValues = objectsWithKeySelector.map(valueSelector);
-//       return accum.set(key, arrayOfValues);
-//     }
-//     return accum;
-//   }, new Map());
-// }

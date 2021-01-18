@@ -2,6 +2,21 @@ import '../styles/style.css';
 
 // import createElement from './utils/createElement';
 import Report from './Report';
-import expense from './expense';
+import { saveExpenseToLocalStorage, setDefaultExpense, isInputValid } from './expense';
 
-new Report().renderIn(document.querySelector('#report'));
+const save = document.querySelector('#save');
+const reportContainer = document.querySelector('#report');
+const audio = document.querySelector('#audio');
+
+const report = new Report();
+
+report.renderIn(reportContainer);
+
+save.addEventListener('click', () => {
+  if (isInputValid()) {
+    audio.play();
+    saveExpenseToLocalStorage();
+    setDefaultExpense();
+    report.updateReport();
+  }
+});

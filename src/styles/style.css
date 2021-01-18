@@ -7,6 +7,15 @@
   font-size: 10px;
 }
 
+ul, 
+ol {
+  list-style: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
 body {
   padding-left: 50px;
 
@@ -25,4 +34,14 @@ body {
   overflow-y: auto;
 
   border: 2px solid black;
+}
+
+.record-container {
+  display: flex;
+  margin-bottom: 5px;
+  padding-left: 20px;
+}
+
+.record-container * {
+  margin-right: 10px;
 }

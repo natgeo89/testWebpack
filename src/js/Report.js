@@ -1,24 +1,16 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable class-methods-use-this */
+import { getExpenses } from './getData';
+
 export default class Report {
   constructor() {
     this.createReport();
   }
 
-  get expenses() {
-    return JSON.parse(localStorage.getItem('expenses'));
-  }
-
   groupExpenses() {
-    // const minutes = this.expenses.map(({ date }) => new Date(date).getMinutes());
-    // const sortUniqueMinutes = Array.from(new Set(minutes)).sort((a, b) => b - a);
-
-    // return sortUniqueMinutes.map((minute) => ({
-    //   [minute]: this.expenses.filter(({ date }) => new Date(date).getMinutes() === minute),
-    // }));
-
-    return this.expenses.reduce((accum, { date }, ind, arr) => {
+    const expensesArray = getExpenses();
+    return expensesArray.reduce((accum, { date }, ind, arr) => {
       const key = new Date(date).getMinutes();
       if (!accum.hasOwnProperty(key)) {
         accum[key] = arr.filter(({ date }) => new Date(date).getMinutes() === key);
@@ -28,19 +20,28 @@ export default class Report {
     }, {});
   }
 
+  deleteRecord(target) {
+    const expensesCopy = [...getExpenses()];
+    const deleteDate = target.dataset.date;
+    if (target.classList.contains('delete-record')) {
+      const deleteRecordIndex = expensesCopy.findIndex(({ date }) => date === +deleteDate);
+
+      expensesCopy.splice(deleteRecordIndex, 1);
+      localStorage.setItem('expenses', JSON.stringify(expensesCopy));
+
+      this.updateReport();
+    }
+  }
+
   createReport() {
+    console.log(getExpenses());
     console.log(this.groupExpenses());
+
     this.report = document.createElement('ul');
 
-    // separate for minutes for better understanding. then replace it to date
-    // const minutes = this.expenses.map(({ date }) => new Date(date).getMinutes());
-    // const seconds = this.expenses.map(({ date }) => new Date(date).getSeconds());
-    // console.log(minutes);
-    // console.log(seconds);
-    // console.log(this.groupExpenses());
-
-    // choose unique minutes to be <ul> element
-    // const sortUniqueMinutes = Array.from(new Set(minutes)).sort((a, b) => b - a);
+    this.report.addEventListener('click', ({ target }) => {
+      this.deleteRecord(target);
+    });
 
     const datefragment = new DocumentFragment();
     const horisontalLine = document.createElement('hr');
@@ -57,17 +58,29 @@ export default class Report {
       const expenseUl = document.createElement('ul');
 
       expensesByMinutes.forEach((expense, index) => {
+        const recordContainer = document.createElement('div');
+        recordContainer.classList.add('record-container');
+
         const hours = new Date(expensesByMinutes[index].date).getHours();
         const minutes = new Date(expensesByMinutes[index].date).getMinutes();
         const seconds = new Date(expensesByMinutes[index].date).getSeconds();
         const expenseLi = document.createElement('li');
+        expenseLi.dataset.date = expensesByMinutes[index].date;
         expenseLi.textContent = `
           ${expensesByMinutes[index].category} --- ${expensesByMinutes[index].value} BYN;
           date(${hours}:${minutes}:${seconds})`;
 
-        expenseUl.append(expenseLi);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete-record');
+        deleteBtn.dataset.date = expensesByMinutes[index].date;
+        deleteBtn.textContent = '✖';
+
+        recordContainer.append(deleteBtn);
+        recordContainer.append(expenseLi);
+
+        expenseUl.append(recordContainer);
       });
-  
+
       minute.append(expenseUl);
       minute.append(horisontalLine.cloneNode());
       datefragment.append(minute);
@@ -75,23 +88,18 @@ export default class Report {
 
     this.report.append(datefragment);
 
-    // console.log(this.expenses);
-    // this.expenses.forEach((item) => {
-    //   const elem = document.createElement('li');
-    //   elem.textContent = item;
-    //   this.report.append(elem);
-    // });
-
+    return this.report;
   }
 
-  
+  updateReport() {
+    const reportEl = document.querySelector('#report>ul');
+    reportEl.replaceWith(this.createReport());
+  }
 
   renderIn(element) {
     element.append(this.report);
   }
 }
-
-
 
 // @example
 //  *   group([

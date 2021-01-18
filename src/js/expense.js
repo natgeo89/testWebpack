@@ -1,3 +1,5 @@
+import { getExpenses } from './getData';
+
 const category = document.querySelector('#category-select');
 const input = document.querySelector('.input-expense');
 const save = document.querySelector('#save');
@@ -16,15 +18,11 @@ function enableInput() {
   }
 }
 
-export function getExpenses() {
-  return JSON.parse(localStorage.getItem('expenses')) || [];
-}
-
-function saveExpenseToLocalStorage() {
+export function saveExpenseToLocalStorage() {
   const expenseArray = getExpenses();
 
   expenseArray.push({
-    value: input.value,
+    value: +input.value,
     category: category.value,
     date: new Date().getTime(),
   });
@@ -32,26 +30,25 @@ function saveExpenseToLocalStorage() {
   localStorage.setItem('expenses', JSON.stringify(expenseArray));
 }
 
-// function defaultLocalStorage() {
-//   Array.from(category.options).forEach(({ value }) => {
-//     if (value !== 'none') {
-//       localStorage.setItem(value, 0);
-//     }
-//   });
-// }
-
-function setDefaultExpense() {
+export function setDefaultExpense() {
   category.selectedIndex = 0;
   input.value = '';
   disableInput();
 }
 
-function validateInput() {
-  //todo need to validate is number && > 0
+export function isInputValid() {
+  const val = +input.value;
+  const isNumber = Number.isFinite(val);
+
+  return (isNumber && val > 0);
 }
 
-function audioExpense() {
-  //todo need to add audio when saving expense
+function validateInput() {
+  if (!isInputValid()) {
+    input.style.color = 'red';
+  } else {
+    input.style.color = 'black';
+  }
 }
 
 function opacityAnimation() {
@@ -59,8 +56,4 @@ function opacityAnimation() {
 }
 
 category.addEventListener('change', enableInput);
-
-export default save.addEventListener('click', () => {
-  saveExpenseToLocalStorage();
-  setDefaultExpense();
-});
+input.addEventListener('input', validateInput);

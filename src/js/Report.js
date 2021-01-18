@@ -1,11 +1,10 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable class-methods-use-this */
-import { getExpenses } from './getData';
+import { getExpenses, getIntervalData } from './getData';
+import addZeroes from './utils/addZeroes';
 
-function addZeroes(num) {
-  return num < 10 ? `0${num}` : num;
-}
+const intervalReport = document.querySelector('#interval-select');
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -16,8 +15,13 @@ export default class Report {
     this.createReport();
   }
 
+  get interval() {
+    return intervalReport.value;
+  }
+
   groupExpenses() {
-    const expensesArray = getExpenses();
+    const expensesArray = getIntervalData(this.interval);
+    console.log('interval', expensesArray)
     return expensesArray.reduce((accum, { category }, ind, arr) => {
       const key = category;
       if (!accum.hasOwnProperty(key)) {
@@ -29,7 +33,7 @@ export default class Report {
   }
 
   deleteRecord(target) {
-    const expensesCopy = [...getExpenses()];
+    const expensesCopy = [...getIntervalData(this.interval)];
     const deleteDate = target.dataset.date;
     if (target.classList.contains('delete-record')) {
       const deleteRecordIndex = expensesCopy.findIndex(({ date }) => date === +deleteDate);
@@ -42,9 +46,7 @@ export default class Report {
   }
 
   createReport() {
-    console.log(getExpenses());
-    console.log(this.groupExpenses());
-
+    console.log('create')
     this.report = document.createElement('ul');
 
     this.report.addEventListener('click', ({ target }) => {
@@ -55,6 +57,7 @@ export default class Report {
     const horisontalLine = document.createElement('hr');
     // here should get interval data. not all data
     const reportArray = this.groupExpenses();
+    console.log(reportArray)
 
     const reportCatetegories = Object.keys(reportArray).sort();
 

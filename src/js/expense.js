@@ -1,4 +1,5 @@
 import { getExpenses } from './getData';
+import addZeroes from './utils/addZeroes';
 
 const category = document.querySelector('#category-select');
 const input = document.querySelector('.input-expense');
@@ -22,7 +23,12 @@ function enableInput() {
 }
 
 function setCurrentDateByDefault() {
-  date.valueAsNumber = new Date().getTime();
+  const currendDate = new Date();
+  const year = currendDate.getFullYear();
+  const month = currendDate.getMonth();
+  const day = currendDate.getDate();
+
+  date.value = `${year}-${addZeroes(month + 1)}-${addZeroes(day)}`;
 }
 
 export function saveExpenseToLocalStorage() {

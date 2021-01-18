@@ -45,3 +45,9 @@ body {
 .record-container * {
   margin-right: 10px;
 }
+
+.navigate-interval {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}

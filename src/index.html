@@ -20,19 +20,27 @@
     </select>
     <input class = "input-expense" placeholder="...input expense" disabled>
     <button id = "save" disabled>Save expense</button>
+    <input id="expense-date" type="date" disabled>
     <audio id="audio" src = "./assets/audio/expense.mp3"></audio>
   </div>
 
   <h1>Report</h1>
-  <select name="interval" id="interval-select">
-    <option value="day">Day</option>
-    <option value="week">Week</option>
-    <option value="month">Month</option>
-    <option value="year">Year</option>
-    <option value="all">All</option>
-  </select>
-  <!-- <input type="date"
-  min="2021-01-01"> -->
+  <div>interval
+    <select name="interval" id="interval-select">
+      <option value="day">Day</option>
+      <option value="week">Week</option>
+      <option value="month">Month</option>
+      <option value="year">Year</option>
+      <option value="all">All</option>
+    </select>
+
+  </div>
+  <div class = "navigate-interval">
+    <button>prev</button>
+    <div id = "select-interval"></div>
+    <button>next</button>
+  </div>
+
   <div class = "report" id="report">
 
   </div>

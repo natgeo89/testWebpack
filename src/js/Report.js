@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-shadow */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable class-methods-use-this */
@@ -65,7 +66,7 @@ export default class Report {
       const totalExpenseByCategory = dataByCategory.reduce((accum, { value }) => accum + value, 0);
       categoryReport.textContent = `${category}: -${totalExpenseByCategory} BYN`;
 
-      const sortedExpensesByCategories = dataByCategory.sort((a, b) => b.date - a.date);
+      const sortedExpensesByCategories = dataByCategory.sort((a, b) => new Date(b.date) - new Date(a.date));
 
       const expenseUl = document.createElement('ul');
 
@@ -79,7 +80,7 @@ export default class Report {
         const year = dateExpense.getFullYear();
 
         const expenseLi = document.createElement('li');
-        expenseLi.dataset.date = sortedExpensesByCategories[index].date;
+        // expenseLi.dataset.date = sortedExpensesByCategories[index].date;
 
         const expenseDate = `${addZeroes(day)} ${monthNames[monthIndex]} ${year}`;
         expenseLi.textContent = `

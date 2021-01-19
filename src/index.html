@@ -8,7 +8,8 @@
 </head>
 
 <body>
-  <h1>Add expense</h1>
+  <hr>
+  <span><b>Add expense</b></span>
   <div class="expense-wrapper">
     <select name="categories" id="category-select">
       <option value="none">--Select category--</option>
@@ -18,31 +19,34 @@
       <option value="car">Car</option>
       <option value="health">Health</option>
     </select>
-    <input class = "input-expense" placeholder="...input expense" disabled>
-    <button id = "save" disabled>Save expense</button>
+    <input class="input-expense" placeholder="...input expense" disabled>
     <input id="expense-date" type="date" disabled>
-    <audio id="audio" src = "./assets/audio/expense.mp3"></audio>
+    <button id="save" disabled>Save expense</button>
+    <audio id="audio" src="./assets/audio/expense.mp3"></audio>
   </div>
 
-  <h1>Report</h1>
-  <div>interval
-    <select id="interval-select">
-      <option value="day">Day</option>
-      <option value="month" selected>Month</option>
-      <option value="year">Year</option>
-      <option value="all">All</option>
-    </select>
+  <hr>
+  <span><b>Interval</b></span>
+  <select id="interval-select">
+    <option value="day">Day</option>
+    <option value="month" selected>Month</option>
+    <option value="year">Year</option>
+    <option value="all">All</option>
+  </select>
 
-  </div>
-  <div class = "navigate-interval">
+  <div class="navigate-interval">
     <button>prev</button>
-    <div id = "interval"></div>
+    <div id="interval"></div>
     <button>next</button>
   </div>
+  <hr>
 
-  <div class = "report" id="report">
+
+  <span><b>Report</b></span>
+  <div class="report" id="report">
 
   </div>
+  <hr>
 
 
 </body>

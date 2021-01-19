@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable class-methods-use-this */
-import { getExpenses, getIntervalData } from './getData';
+import { getIntervalData } from './getData';
 import addZeroes from './utils/addZeroes';
 
 const intervalReport = document.querySelector('#interval-select');
@@ -21,7 +21,7 @@ export default class Report {
 
   groupExpenses() {
     const expensesArray = getIntervalData(this.interval);
-    console.log('interval', expensesArray)
+
     return expensesArray.reduce((accum, { category }, ind, arr) => {
       const key = category;
       if (!accum.hasOwnProperty(key)) {
@@ -34,11 +34,11 @@ export default class Report {
 
   deleteRecord(target) {
     const expensesCopy = [...getIntervalData(this.interval)];
-    const deleteDate = target.dataset.date;
+    const deleteDate = target.dataset.id;
     if (target.classList.contains('delete-record')) {
-      const deleteRecordIndex = expensesCopy.findIndex(({ date }) => date === +deleteDate);
-
+      const deleteRecordIndex = expensesCopy.findIndex(({ id }) => id === deleteDate);
       expensesCopy.splice(deleteRecordIndex, 1);
+
       localStorage.setItem('expenses', JSON.stringify(expensesCopy));
 
       this.updateReport();
@@ -46,7 +46,6 @@ export default class Report {
   }
 
   createReport() {
-    console.log('create')
     this.report = document.createElement('ul');
 
     this.report.addEventListener('click', ({ target }) => {
@@ -55,9 +54,8 @@ export default class Report {
 
     const fragment = new DocumentFragment();
     const horisontalLine = document.createElement('hr');
-    // here should get interval data. not all data
+
     const reportArray = this.groupExpenses();
-    console.log(reportArray)
 
     const reportCatetegories = Object.keys(reportArray).sort();
 
@@ -78,18 +76,19 @@ export default class Report {
         const dateExpense = new Date(sortedExpensesByCategories[index].date);
         const day = dateExpense.getDate();
         const monthIndex = dateExpense.getMonth();
+        const year = dateExpense.getFullYear();
 
         const expenseLi = document.createElement('li');
         expenseLi.dataset.date = sortedExpensesByCategories[index].date;
 
-        const expenseDate = `${addZeroes(day)} ${monthNames[monthIndex]}`;
+        const expenseDate = `${addZeroes(day)} ${monthNames[monthIndex]} ${year}`;
         expenseLi.textContent = `
           -${sortedExpensesByCategories[index].value} BYN;
           ${expenseDate}`;
 
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete-record');
-        deleteBtn.dataset.date = sortedExpensesByCategories[index].date;
+        deleteBtn.dataset.id = sortedExpensesByCategories[index].id;
         deleteBtn.textContent = '✖';
 
         recordContainer.append(deleteBtn);

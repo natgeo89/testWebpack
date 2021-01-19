@@ -49,5 +49,9 @@ body {
 .navigate-interval {
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 180px;
+}
+
+button[disabled] {
+  cursor: default;
 }

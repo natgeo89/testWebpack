@@ -6,6 +6,16 @@ const input = document.querySelector('.input-expense');
 const save = document.querySelector('#save');
 const date = document.querySelector('#expense-date');
 
+function generateId() {
+  const str = '1234567890abcdefg';
+  const maxNumber = str.length;
+  let id = '';
+  for (let i = 0; i < maxNumber; i += 1) {
+    id += str[Math.trunc(Math.random() * maxNumber)];
+  }
+  return id;
+}
+
 function disableInput() {
   input.setAttribute('disabled', true);
   save.setAttribute('disabled', true);
@@ -28,7 +38,9 @@ function setCurrentDateByDefault() {
   const month = currendDate.getMonth();
   const day = currendDate.getDate();
 
-  date.value = `${year}-${addZeroes(month + 1)}-${addZeroes(day)}`;
+  const currentDateStr = `${year}-${addZeroes(month + 1)}-${addZeroes(day)}`;
+  date.value = currentDateStr;
+  date.max = currentDateStr;
 }
 
 export function saveExpenseToLocalStorage() {
@@ -38,6 +50,7 @@ export function saveExpenseToLocalStorage() {
     value: +input.value,
     category: category.value,
     date: date.value,
+    id: generateId(),
   });
 
   localStorage.setItem('expenses', JSON.stringify(expenseArray));
@@ -63,10 +76,6 @@ function validateInput() {
   } else {
     input.style.color = 'black';
   }
-}
-
-function opacityAnimation() {
-  //todo need to add opacity +scale when saving
 }
 
 category.addEventListener('change', () => {

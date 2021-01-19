@@ -16,16 +16,23 @@ export function getIntervalData(interval = 'all') {
     case 'month':
       intervalArray = expensesArray.filter(({ date }) => new Date(date).getMonth() === new Date().getMonth());
       return intervalArray;
-
-    // case 'week':
-    
-    //   break;
-    // case 'year':
-  
-    //   break;
+    case 'year':
+      intervalArray = expensesArray.filter(({ date }) => new Date(date).getFullYear() === new Date().getFullYear());
+      return intervalArray;
     case 'all':
-      return getExpenses();
+      return expensesArray;
     default:
-      return getExpenses();
+      return expensesArray;
   }
+}
+
+function getNextIntervalData(selectDate) {
+  // parse select date + 1 interval.
+  // disable next if it is last interval  === new Date();
+}
+
+function getPreviousIntervalData(selectDate) {
+  // parse select date - 1 interval
+
+  
 }

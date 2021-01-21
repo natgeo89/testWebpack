@@ -22,7 +22,8 @@ body {
   font-size: 2rem;
 
   background-color: rgb(202, 194, 156);
-  width: 30%;
+  width: 25%;
+  min-width: 400px;
   margin: 0 auto;
 }
 

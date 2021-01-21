@@ -6,6 +6,8 @@ import { getIntervalData } from './getData';
 import addZeroes from './utils/addZeroes';
 
 const intervalReport = document.querySelector('#interval-select');
+// const interval = document.querySelector('#interval');
+// console.log(interval.dataset.date)
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -16,12 +18,18 @@ export default class Report {
     this.createReport();
   }
 
-  get interval() {
-    return intervalReport.value;
-  }
+  // get interval() {
+  //   return intervalReport.value;
+  // }
 
   groupExpenses() {
-    const expensesArray = getIntervalData(this.interval);
+    const interval = document.querySelector('#interval');
+    
+    const currentDatestamp = +interval.dataset.date;
+    console.log(interval, currentDatestamp)
+
+    const expensesArray = getIntervalData(intervalReport.value, currentDatestamp);
+    console.log(intervalReport.value, currentDatestamp, expensesArray)
 
     return expensesArray.reduce((accum, { category }, ind, arr) => {
       const key = category;
@@ -34,10 +42,14 @@ export default class Report {
   }
 
   deleteRecord(target) {
-    const expensesCopy = [...getIntervalData(this.interval)];
-    const deleteDate = target.dataset.id;
+    const interval = document.querySelector('#interval');
+
+    const currentDatestamp = +interval.dataset.date;
+
+    const expensesCopy = [...getIntervalData(intervalReport.value, currentDatestamp)];
+    const deleteId = target.dataset.id;
     if (target.classList.contains('delete-record')) {
-      const deleteRecordIndex = expensesCopy.findIndex(({ id }) => id === deleteDate);
+      const deleteRecordIndex = expensesCopy.findIndex(({ id }) => id === deleteId);
       expensesCopy.splice(deleteRecordIndex, 1);
 
       localStorage.setItem('expenses', JSON.stringify(expensesCopy));
@@ -80,7 +92,6 @@ export default class Report {
         const year = dateExpense.getFullYear();
 
         const expenseLi = document.createElement('li');
-        // expenseLi.dataset.date = sortedExpensesByCategories[index].date;
 
         const expenseDate = `${addZeroes(day)} ${monthNames[monthIndex]} ${year}`;
         expenseLi.textContent = `

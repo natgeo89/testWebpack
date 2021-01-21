@@ -3,7 +3,7 @@ import '../styles/style.css';
 // import createElement from './utils/createElement';
 import Report from './Report';
 import { saveExpenseToLocalStorage, setDefaultExpense, isInputValid } from './expense';
-import { getIntervalDate } from './interval';
+import { getIntervalText, setIntervalDate } from './interval';
 
 const reportContainer = document.querySelector('#report');
 const save = document.querySelector('#save');
@@ -11,22 +11,26 @@ const intervalSelect = document.querySelector('#interval-select');
 const intervalReport = document.querySelector('#interval');
 const audio = document.querySelector('#audio');
 
-const report = new Report();
+document.addEventListener('DOMContentLoaded', () => {
+  intervalReport.textContent = getIntervalText();
+  setIntervalDate();
 
-report.renderIn(reportContainer);
+  const report = new Report();
+  report.renderIn(reportContainer);
 
-save.addEventListener('click', () => {
-  if (isInputValid()) {
-    audio.play();
-    saveExpenseToLocalStorage();
-    setDefaultExpense();
+  save.addEventListener('click', () => {
+    if (isInputValid()) {
+      audio.play();
+      saveExpenseToLocalStorage();
+      setDefaultExpense();
+      report.updateReport();
+    }
+  });
+
+  intervalSelect.addEventListener('change', () => {
+    intervalReport.textContent = getIntervalText();
     report.updateReport();
-  }
-});
-
-intervalSelect.addEventListener('change', () => {
-  intervalReport.textContent = getIntervalDate();
-  report.updateReport();
+  });
 });
 
 // function getIntervalDate() {
